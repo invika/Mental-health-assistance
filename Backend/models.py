@@ -22,7 +22,7 @@ class CustomUser(models.Model):
 
     def __str__(self):
         return self.user.username
-
+#creating doctor class and fields
 
 class Doctor(models.Model):
     doctorId = models.AutoField(primary_key=True)  
