@@ -42,6 +42,7 @@ def validate_login(request):
         return render(request, 'login.html', {})
 
 @never_cache
+#creating registration page view
 def register(request):
     if request.method == "POST":
         email = request.POST.get("email")
