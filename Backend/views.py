@@ -19,6 +19,7 @@ from django.views.decorators import gzip
 
 
 # Create your views here.
+#creating login view
 @never_cache
 def login(request):
     return render(request, "login.html", {})
