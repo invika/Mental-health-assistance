@@ -10,6 +10,7 @@ from .models import Doctor
 
 
 
+
 import cv2
 from keras.models import model_from_json
 import numpy as np
