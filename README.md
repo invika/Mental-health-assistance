@@ -7,9 +7,15 @@ support through a digital interface. Leveraging advanced algorithms, it comprehe
 Our AI- powered mental health assistant fills the void in mental health care, offering an empathetic, accessible, and private service. This way the users can get help with this mental health assistance website.
 
 Development platform: Visual studio
+
 Software Environment: 
+
 Front End: HTML, CSS, JavaScript
+
 Framework: React Native, Bootstrap 
+
 Backend Development: Python, Django Tools 
+
 NLP and Machine Learning 
+
 Framework: TensorFlow, PyTorch, DialogFlow, scikit-learn.
