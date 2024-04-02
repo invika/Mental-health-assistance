@@ -217,6 +217,12 @@ def healthreference(request):
     return render(request, "customer/healthreference.html", {})
 
 
-def nearbydoctors(request):  
-    doctors = Doctor.objects.filter(city=request.session['city'])  
-    return render(request,"customer/nearbydoctors.html",{'doctors':doctors}) 
+def nearbydoctors(request):
+    doctors = None
+    try:
+        city = request.session.get('city')
+        if city:
+            doctors = Doctor.objects.filter(city=city)
+    except:
+        pass
+    return render(request, "customer/nearbydoctors.html", {'doctors': doctors})
