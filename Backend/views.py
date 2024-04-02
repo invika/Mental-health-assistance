@@ -17,13 +17,15 @@ import numpy as np
 
 from django.http import StreamingHttpResponse
 from django.views.decorators import gzip
+def index(request):
+    return render(request, "home/index.html", {})
 
 
 # Create your views here.
 #creating login view
 @never_cache
 def login(request):
-    return render(request, "login.html", {})
+    return render(request, "home/loginpage.html", {})
 
 @require_POST
 def validate_login(request):
@@ -31,7 +33,7 @@ def validate_login(request):
         user = authenticate(request, username=request.POST.get("username"), password=request.POST.get("password"))
     except Exception as e:
         messages.error(request, "Username is already in use.")
-        return redirect("login")
+        return redirect("home/loginpage.html")
         
     if user is not None:
         auth_login(request, user)
@@ -40,7 +42,7 @@ def validate_login(request):
         return redirect("home")
     else:
         messages.error(request, "Username/Password incorrect.")
-        return render(request, 'login.html', {})
+        return render(request, 'home/loginpage.html', {})
 
 @never_cache
 #creating registration page view
@@ -57,12 +59,12 @@ def register(request):
         date_of_birth = request.POST.get("dob")
         horror = bool(request.POST.get("horror"))
         action = bool(request.POST.get("action"))
-        sciencefiction = bool(request.POST.get("sciencefiction"))
+        science-fiction = bool(request.POST.get("science-fiction"))
         thriller = bool(request.POST.get("thriller"))
         comedy = bool(request.POST.get("comedy"))
         romance = bool(request.POST.get("romance"))
         favourite_sports_and_places = request.POST.get("favourite_sports_and_places")
-        interests = request.POST.get("intrests") 
+        interests = request.POST.get("interests") 
         username = email
 
         if password != password2:
@@ -94,14 +96,14 @@ def register(request):
             comedy=comedy,
             romance=romance,
             favourite_sports_and_places=favourite_sports_and_places,
-            intrests=interests
+            interests=interests
         )
 
         authenticated_user = authenticate(request, username=username, password=password)
         auth_login(request, authenticated_user)  
         return redirect("home")
     
-    return render(request, "register.html", {})
+    return render(request, "home/register.html", {})
 
 @login_required
 @never_cache
