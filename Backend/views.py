@@ -214,7 +214,7 @@ def video_feed(request):
 
 def healthreference(request):
     return render(request, "customer/healthreference.html", {})
-
+#doctors nearby are identified based on the city given at time of registration
 
 def nearbydoctors(request):
     doctors = None
