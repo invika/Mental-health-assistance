@@ -288,7 +288,7 @@ INSERT INTO `myapp_customuser` (`id`, `first_name`, `last_name`, `address`, `dat
 --
 -- Table structure for table `myapp_doctor`
 --
-
+--creating tables for doctors
 CREATE TABLE `myapp_doctor` (
   `doctorId` int(11) NOT NULL,
   `doctorName` varchar(100) NOT NULL,
