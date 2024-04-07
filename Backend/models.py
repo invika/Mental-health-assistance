@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
+#  Below is the table to get the details of new user
 class CustomUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
@@ -26,7 +27,7 @@ class CustomUser(models.Model):
     def __str__(self):
         return self.user.username
 #creating doctor class and fields
-
+#This classfields can obtain the details of doctor 
 class Doctor(models.Model):
     doctorId = models.AutoField(primary_key=True)  
     doctorName = models.CharField(max_length=100)
