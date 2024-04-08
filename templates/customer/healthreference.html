@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health</title>
+
+    {% include 'home/head.html' %}
+	<body>
+    {% include 'customer/menu.html' %}
+    {% include 'customer/navbar.html' %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6 mt-5">
+                <div class="container mt-5">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="card-title">Content from psychiatry.org</h5>
+                      </div>
+                      <div class="card-body">
+                        <iframe src="https://www.psychiatry.org/patients-families/what-is-mental-illness" style="width:100%; height:500px;"></iframe>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-6 mt-5">
+                <div class="container mt-5">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="card-title">Content from cdc.gov</h5>
+                      </div>
+                      <div class="card-body">
+                        <iframe src="https://www.cdc.gov/mentalhealth/tools-resources/index.htm" style="width:100%; height:500px;"></iframe>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+
+            <div class="col-6 mt-5">
+                <div class="container mt-5">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="card-title">Content from medicalnewstoday.com</h5>
+                      </div>
+                      <div class="card-body">
+                        <iframe src="https://www.medicalnewstoday.com/articles/mental-health-resources" style="width:100%; height:500px;"></iframe>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-6 mt-5">
+                <div class="container mt-5">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="card-title">Content from ourworldindata.org</h5>
+                      </div>
+                      <div class="card-body">
+                        <iframe src="https://ourworldindata.org/mental-health" style="width:100%; height:500px;"></iframe>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+</html> 
