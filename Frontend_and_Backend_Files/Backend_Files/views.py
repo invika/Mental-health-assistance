@@ -110,7 +110,7 @@ def edituser(request, id):
     print("firstname=" , userob.user.password)  
     return render(request,'edituser.html', {'userob':userob})  
 
-@require_POST
+@require_POST  # Fetching updated user details from POST request
 def updateuser(request):
     print('===' * 20)
     if request.method == "POST":
