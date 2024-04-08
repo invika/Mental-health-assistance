@@ -2,12 +2,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
-
-
-
-
-
 # Create your models here.
 #  Below is the table to get the details of new user
 class CustomUser(models.Model):
