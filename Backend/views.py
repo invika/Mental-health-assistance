@@ -1,3 +1,6 @@
+
+
+
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 from django.contrib import messages
@@ -7,10 +10,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from .models import CustomUser
 from .models import Doctor
-
-
-
-
 import cv2
 from keras.models import model_from_json
 import numpy as np
