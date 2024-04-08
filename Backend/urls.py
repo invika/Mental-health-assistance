@@ -1,7 +1,4 @@
 
-
-
-
 from django.urls import path
 from .views import home, login, validate_login, register, edituser, updateuser, assistant, video_feed, healthreference, nearbydoctors
 from  django.contrib.auth.views import LogoutView
