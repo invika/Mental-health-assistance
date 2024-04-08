@@ -155,7 +155,7 @@ def assistant(request):
 
 ##############
 ################
-
+# Function to extract features from image
 def extract_features(image):
     feature = np.array(image)
     feature = feature.reshape(1,48,48,1)
