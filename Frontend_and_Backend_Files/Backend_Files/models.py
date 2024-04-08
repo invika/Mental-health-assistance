@@ -11,7 +11,7 @@ class CustomUser(models.Model):
     city = models.CharField(max_length=100, default='')
     mobile = models.TextField()
     date_of_birth = models.DateField()
-    email = models.EmailField()
+    email = models.EmailField()# Movie Genre Preferences
     horror = models.BooleanField()
     action = models.BooleanField()
     science_fiction = models.BooleanField()
