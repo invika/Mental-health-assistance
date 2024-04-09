@@ -24,7 +24,7 @@ class CustomUser(models.Model):
     def __str__(self):
         return self.user.username
 
-
+#Recommanding doctors
 class Doctor(models.Model):
     doctorId = models.AutoField(primary_key=True)  
     doctorName = models.CharField(max_length=100)
