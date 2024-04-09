@@ -45,7 +45,7 @@ def validate_login(request):
     else:
         messages.error(request, "Username/Password incorrect.")
         return render(request, 'home/loginpage.html', {})
-
+##error rectified login details
 @never_cache
 def register(request):
     if request.method == "POST":
