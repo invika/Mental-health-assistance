@@ -107,7 +107,7 @@ def register(request):
         return redirect("home")
     
     return render(request, "home/register.html", {})
-
+##updated some entries
 @login_required
 @never_cache
 def home(request):
