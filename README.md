@@ -1,10 +1,9 @@
 TITLE: Mental Health Assistance
 
-Description: For individuals seeking mental health assistance, who may encounter obstacles in accessing traditional therapy due to various reasons such as cost, location, or social stigma,
-The AI-powered mental health assistant system presents an innovate solution, that technology ensures confidentiality and is available round the clock, making it an invaluable resource for those
-hesitant to seek traditional counselling. Unlike convectional mental health services that necessitate in-person interaction , our assistant provides immediate, personalized 
-support through a digital interface. Leveraging advanced algorithms, it comprehends and responds to the user's emotional state, offering tailored coping mechanisms and self-care strategies.
-Our AI- powered mental health assistant fills the void in mental health care, offering an empathetic, accessible, and private service. This way the users can get help with this mental health assistance website.
+Description: 
+This project aims to develop a comprehensive mental health management platform empowered by artificial intelligence. For individuals can track their mood over time, receive 
+personalized recommendations, access resources, and connect with Doctors easily. Key features include mood tracking through video recording, receiving monthly reminders and support via Gmail, personalized doctor recommendations, and access to nearby specialists based on location. This AI-powered assistant provides tailored support, offers educational resources on various mental health topics, and enables users to set and track goals for their mental well-being. Through these features, the platform aims to empower users to manage their mental health effectively, improve self-awareness, and stay motivated on their journey towards better mental well-being.
+
 
 Development platform: Visual studio
 
