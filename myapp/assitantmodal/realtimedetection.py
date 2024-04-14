@@ -24,6 +24,7 @@ while True:
     try: 
         for (p,q,r,s) in faces:
             image = gray[q:q+s,p:p+r]
+            #bounding box with emotion detected is displayed
             cv2.rectangle(im,(p,q),(p+r,q+s),(255,0,0),2)
             image = cv2.resize(image,(48,48))
             img = extract_features(image)
