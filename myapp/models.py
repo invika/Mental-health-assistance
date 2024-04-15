@@ -24,7 +24,7 @@ class CustomUser(models.Model):
     def __str__(self):
         return self.user.username
 
-#Recommanding doctors
+#Recommending doctors
 class Doctor(models.Model):
     doctorId = models.AutoField(primary_key=True)  
     doctorName = models.CharField(max_length=100)
@@ -37,7 +37,7 @@ class Doctor(models.Model):
 
     def __str__(self):
         return self.doctorName  
-
+#Emotionname display loading in database
 class Emotions(models.Model):
     id = models.AutoField(primary_key=True)
     datetime = models.DateTimeField(auto_now_add=True)
