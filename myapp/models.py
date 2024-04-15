@@ -27,11 +27,11 @@ class CustomUser(models.Model):
 #Recommending doctors
 class Doctor(models.Model):
     doctorId = models.AutoField(primary_key=True)  
-    doctorName = models.CharField(max_length=100)
+    doctorName = models.CharField(max_length=101)
     address = models.CharField(max_length=255)
-    hospitalName = models.CharField(max_length=100)
+    hospitalName = models.CharField(max_length=101)
     description = models.CharField(max_length=255)
-    mobileNumber = models.CharField(max_length=15)  
+    mobileNumber = models.CharField(max_length=11)  
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
 
