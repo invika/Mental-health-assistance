@@ -226,6 +226,7 @@ def generate(request):
                 emotionname=most_occurred
             )
         emotion.save()
+        request.session['streaming_completed'] = True
         show_modal = True  # Set this to True or False based on your conditions
         return redirect(request, '/index/')
     except Exception as e:
