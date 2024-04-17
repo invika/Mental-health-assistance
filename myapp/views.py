@@ -229,7 +229,7 @@ def generate(request):
         request.session['streaming_completed'] = True
         # streaming_completed = True  # Set this to True or False based on your conditions
         
-         print("OK",request.session['emotion_detected'])
+        # print("OK",request.session['emotion_detected'])
         show_modal = True  # Set this to True or False based on your conditions
         return redirect(request, '/index/')
     except Exception as e:
