@@ -174,6 +174,7 @@ def extract_features(image):
     return feature/255.0
 
 def generate(request):
+    request.session['streaming_completed'] = False
     json_file = open("myapp/assitantmodal/facialemotionmodel.json", "r")
     model_json = json_file.read()
     json_file.close()
