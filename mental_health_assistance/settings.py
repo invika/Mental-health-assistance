@@ -145,3 +145,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "login"
 LOGIN_URL = "login"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Your SMTP server address
+EMAIL_PORT = 587  # Your SMTP server port
+EMAIL_USE_TLS = True  # Set it to False if you don't use TLS
+EMAIL_HOST_USER = 'mentalhealthdemo1@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'tuxf uoez pnsr curv'  # Your email password or application-specific password

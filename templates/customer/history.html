@@ -12,6 +12,7 @@
     {% include 'customer/navbar.html' %}
     <div class="container mt-4">
         <h2>History
+            {{goal}}
             {% if goal == request.session.goal %}
             <p><span style="color:green">You have reached your Goal</span></p>
         {% else %}
@@ -19,10 +20,16 @@
         {% endif %}
         </h2>
 
+        {% if goal == 'sad' %}
+        <span id='doc' style="float: right; color:red">Please consult the near by Doctor as you are "{{goal}}" from the history.</span>
+        
+        {% else %}
+            <p><span style="float: right;  color:green">Your Mental Health is Good, Will suggest to consult a Doctor if requird!!!</span></p>
+        {% endif %}
+
         <table class="table table-striped">
             <thead>
                 <tr>
-                    
                     <th>Date</th>
                     <th>username</th>
                     <th>Emotion</th>

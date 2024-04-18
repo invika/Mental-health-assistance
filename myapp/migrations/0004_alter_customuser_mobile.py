@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 
-#Mobile data Entry
+
 class Migration(migrations.Migration):
 
     dependencies = [

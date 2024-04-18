@@ -14,7 +14,7 @@ def extract_features(image):
     feature = np.array(image)
     feature = feature.reshape(1,48,48,1)
     return feature/255.0
-#Video captured and label is displayed based on detection
+
 webcam=cv2.VideoCapture(0)
 labels = {0 : 'angry', 1 : 'disgust', 2 : 'fear', 3 : 'happy', 4 : 'neutral', 5 : 'sad', 6 : 'surprise'}
 while True:
@@ -24,7 +24,6 @@ while True:
     try: 
         for (p,q,r,s) in faces:
             image = gray[q:q+s,p:p+r]
-            #bounding box with emotion detected is displayed
             cv2.rectangle(im,(p,q),(p+r,q+s),(255,0,0),2)
             image = cv2.resize(image,(48,48))
             img = extract_features(image)

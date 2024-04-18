@@ -24,20 +24,20 @@ class CustomUser(models.Model):
     def __str__(self):
         return self.user.username
 
-#Recommending doctors
+
 class Doctor(models.Model):
     doctorId = models.AutoField(primary_key=True)  
-    doctorName = models.CharField(max_length=101)
+    doctorName = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
-    hospitalName = models.CharField(max_length=101)
+    hospitalName = models.CharField(max_length=100)
     description = models.CharField(max_length=255)
-    mobileNumber = models.CharField(max_length=11)  
+    mobileNumber = models.CharField(max_length=15)  
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
 
     def __str__(self):
         return self.doctorName  
-#Emotionname display loading in database
+
 class Emotions(models.Model):
     id = models.AutoField(primary_key=True)
     datetime = models.DateTimeField(auto_now_add=True)
@@ -46,3 +46,8 @@ class Emotions(models.Model):
 
     def __str__(self):
         return f"{self.username}'s {self.emotionname} at {self.datetime}"
+    
+class Movies(models.Model):
+    id = models.AutoField(primary_key=True)
+    movieType = models.CharField(max_length=100)
+    movieName = models.CharField(max_length=100)

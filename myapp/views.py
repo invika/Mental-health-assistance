@@ -8,14 +8,16 @@ from django.views.decorators.cache import never_cache
 from .models import CustomUser
 from .models import Doctor
 from .models import Emotions
+from .models import Movies
 import time
 from collections import Counter
-
-
+from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.conf import settings
 import cv2
 from keras.models import model_from_json
 import numpy as np
-
+from datetime import datetime
 from django.http import StreamingHttpResponse
 from django.views.decorators import gzip
 
@@ -29,10 +31,13 @@ def login(request):
 
 @require_POST
 def validate_login(request):
+    # logic for loin validation
+    request.session['streaming_completed'] = False
     try:
         user = authenticate(request, username=request.POST.get("username"), password=request.POST.get("password"))
     except Exception as e:
         messages.error(request, "Username is already in use.")
+        # redirect the user to the login page
         return redirect("home/loginpage.html")
         
     if user is not None:
@@ -41,11 +46,33 @@ def validate_login(request):
         request.session['city'] = customuser.city
         request.session['username'] = customuser.email
         request.session['goal'] = customuser.goal
+        print("email host",settings.EMAIL_HOST_USER)
+        today = datetime.now().date()
+        if today.day <= 5:
+            if request.session['username']:
+                history = Emotions.objects.filter(username=request.session['username'])
+            # Prepare data for the table
+            table_data = [['Time', 'Username', 'Emotion']]
+            for history_entry in history:
+                table_data.append([history_entry.datetime, history_entry.username, history_entry.emotionname])
+
+            # Convert table data to a string
+            table_string = "\n".join(["\t".join(map(str, row)) for row in table_data])
+            # Generate email content
+            email_content = f"History Data Table\n\n{table_string}"
+
+            send_mail(
+                "Mental Health Report",                  
+                email_content,         
+                settings.EMAIL_HOST_USER,        
+                [request.session['username']],
+                fail_silently=False,             
+            )
         return redirect("home")
     else:
         messages.error(request, "Username/Password incorrect.")
         return render(request, 'home/loginpage.html', {})
-##error rectified login details
+
 @never_cache
 def register(request):
     if request.method == "POST":
@@ -107,10 +134,11 @@ def register(request):
         return redirect("home")
     
     return render(request, "home/register.html", {})
-##updated some entries
+
 @login_required
 @never_cache
 def home(request):
+    # Redirect the user to the home screen 
     return render(request, "customer/index.html", {"custom": CustomUser.objects.get(user=request.user)})
 
 def edituser(request, id):  
@@ -123,6 +151,7 @@ def updateuser(request):
     print('===' * 20)
     if request.method == "POST":
         email = request.POST.get("email")
+        goal = request.POST.get("goal")
         first_name = request.POST.get("first_name")
         last_name = request.POST.get("last_name")
         mobile = str(request.POST.get("mobile"))
@@ -136,11 +165,12 @@ def updateuser(request):
         romance = bool(request.POST.get("romance"))
         favourite_sports_and_places = request.POST.get("favourite_sports_and_places")
         interests = request.POST.get("intrests") 
-        
+        # creating a coustomer obj to update in the DB
         user = CustomUser.objects.get(email=email)
         user.first_name = first_name
         user.last_name = last_name
         user.mobile = mobile
+        user.goal = goal
         user.address = address
         user.date_of_birth = date_of_birth
         user.horror = horror
@@ -159,19 +189,23 @@ def updateuser(request):
 
 
 def assistant(request):
+    # redirect the user to assistant page
     return render(request, "customer/assistant.html", {})
 
-##############
+
 ################
 def most_common_item(lst):
+    # get the most common items from the list of emotions detected.
     counts = Counter(lst)
     most_common = counts.most_common(1)
     return most_common[0][0] if most_common else None
 
 def extract_features(image):
+    #extract features from the face
     feature = np.array(image)
     feature = feature.reshape(1,48,48,1)
     return feature/255.0
+
 
 def generate(request):
     request.session['streaming_completed'] = False
@@ -180,17 +214,15 @@ def generate(request):
     model_json = json_file.read()
     json_file.close()
     model = model_from_json(model_json)
-
     model.load_weights("myapp/assitantmodal/facialemotionmodel.h5")
     haar_file=cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
     face_cascade=cv2.CascadeClassifier(haar_file)
-
-
     # Set up camera
     webcam = cv2.VideoCapture(0)
     labels = {0 : 'angry', 1 : 'disgust', 2 : 'fear', 3 : 'happy', 4 : 'neutral', 5 : 'sad', 6 : 'surprise'}
     predictionArray = []
     start_time = time.time()
+    # run for 8 sec to predict the emotion
     while (time.time() - start_time) < 8:
         i,im=webcam.read()
         gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
@@ -214,8 +246,6 @@ def generate(request):
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-            # cv2.waitKey(27)
         except cv2.error:
             pass
     try:
@@ -225,28 +255,79 @@ def generate(request):
                 username=request.session['username'],
                 emotionname=most_occurred
             )
+        
+    
+
         emotion.save()
         request.session['streaming_completed'] = True
         # streaming_completed = True  # Set this to True or False based on your conditions
         
         # print("OK",request.session['emotion_detected'])
-        show_modal = True  # Set this to True or False based on your conditions
-        return redirect(request, '/index/')
+        session_data = request.session.items()
+        print("------",session_data)
     except Exception as e:
         print("Error:", e)
 
     
-
 @gzip.gzip_page
 def video_feed(request):
-    return StreamingHttpResponse(generate(request), content_type='multipart/x-mixed-replace; boundary=frame')
+    # return the streaming video to the user in the browser.
+    if request.session['streaming_completed']:
+        # Redirect to another URL after streaming is completed
+        return redirect('/index/')
+    else:
+        return StreamingHttpResponse(generate(request), content_type='multipart/x-mixed-replace; boundary=frame')
+
+def get_session_data(request):
+    emotionName = get_last_emotion_for_username(request.session['username'])
+    if emotionName:
+        return JsonResponse({'emotion_detected': emotionName})
+        # return JsonResponse({'emotion_detected': "angry" })
+
+    else:
+        return JsonResponse({'error': 'Not Detected'})
+
+def get_last_emotion_for_username(username):
+    try:
+        last_emotion = Emotions.objects.filter(username=username).order_by('-datetime')[0]
+        return last_emotion.emotionname
+    except IndexError:
+        # Handle case where no emotion exists for the given username
+        return " "
+    
+def showAsstiant(request,emotion_detected):
+    customuser = CustomUser.objects.get(email=request.session.get("username")) 
+    filtered_movies = []
+    if emotion_detected == 'sad':
+        if customuser.horror:
+            filtered_movies += Movies.objects.filter(movieType="Horror")
+        if customuser.action:
+            filtered_movies += Movies.objects.filter(movieType="Action")
+        if customuser.science_fiction:
+            filtered_movies += Movies.objects.filter(movieType="ScienceFiction")
+        if customuser.thriller:
+            filtered_movies += Movies.objects.filter(movieType="Thriller")
+        if customuser.comedy:
+            filtered_movies += Movies.objects.filter(movieType="Comedy")
+        if customuser.romance:
+            filtered_movies += Movies.objects.filter(movieType="Romance")
+        return render(request, "customer/assistant.html", {'movies': filtered_movies,'emotion_detected':emotion_detected})
+    if emotion_detected == 'neutral':
+        return render(request, "customer/assistant.html", {'intrests': customuser.intrests,'emotion_detected':emotion_detected})
+    if emotion_detected == 'happy':
+        return render(request, "customer/assistant.html", {'happy': customuser.intrests,'emotion_detected':emotion_detected})
+    if emotion_detected == 'angry':
+        return render(request, "customer/assistant.html", {'angry': customuser.favourite_sports_and_places,'emotion_detected':emotion_detected})
+
 
 
 def healthreference(request):
+    #redirect the user to the HTML page of references
     return render(request, "customer/healthreference.html", {})
 
 
 def nearbydoctors(request):
+    #get doc near by
     doctors = None
     try:
         city = request.session.get('city')
@@ -261,6 +342,7 @@ def history(request):
     userEmotions = []
     goal=""
     try:
+        #get the user name from the session to fetch in the DB
         username = request.session['username']
         if username:
             history = Emotions.objects.filter(username=username)
