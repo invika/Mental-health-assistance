@@ -1,3 +1,4 @@
+#cv2 module will open the camera and  captures the video 
 import cv2
 from keras.models import model_from_json
 import numpy as np
