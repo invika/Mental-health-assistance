@@ -11,10 +11,10 @@ Software Environment:
 
 Front End: HTML, CSS, JavaScript
 
-Framework: React Native, Bootstrap 
+Framework: Bootstrap 
 
 Backend Development: Python, Django Tools 
 
 NLP and Machine Learning 
 
-Framework: TensorFlow, PyTorch, DialogFlow, scikit-learn.
+Framework: TensorFlow, PyTorch, scikit-learn.
