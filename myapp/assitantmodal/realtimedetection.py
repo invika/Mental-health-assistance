@@ -15,7 +15,7 @@ def extract_features(image):
     feature = np.array(image)
     feature = feature.reshape(1,48,48,1)
     return feature/255.0
-
+#webcam access for emotion recognition using cv2 module
 webcam=cv2.VideoCapture(0)
 labels = {0 : 'angry', 1 : 'disgust', 2 : 'fear', 3 : 'happy', 4 : 'neutral', 5 : 'sad', 6 : 'surprise'}
 while True:
