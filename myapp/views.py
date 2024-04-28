@@ -39,7 +39,7 @@ def validate_login(request):
         messages.error(request, "Username is already in use.")
         # redirect the user to the login page
         return redirect("home/loginpage.html")
-        
+     #user get mail report monthly on login   
     if user is not None:
         auth_login(request, user)
         customuser = CustomUser.objects.get(email=request.POST.get("username"))  
