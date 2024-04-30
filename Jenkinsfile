@@ -19,6 +19,7 @@ pipeline{
             steps {
                 sh '''
                 touch deployment.log
+                pwd
                 scp -i "Jenkin.pem" -r ./* ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com:~
                 ssh -i "Jenkin.pem" ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "cd ~/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment.log  && ./Jenkins/app_start.sh > deployment.log && ./Jenkins/env_setup.sh > deployment.log"
                 '''
