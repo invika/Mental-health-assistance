@@ -16,7 +16,7 @@ pipeline{
         }
         stage('Test - Deployment'){
             steps {
-                sh 'sudo su'
+                //sh 'sudo su'
                 sh 'scp -i "/var/lib/jenkins/workspace/Jenkin.pem" -o StrictHostKeyChecking=no -r ../Mental-Health-Assistance ubuntu@ec2-3-135-104-190.us-east-2.compute.amazonaws.com:~'
                 sh 'ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" ubuntu@ec2-3-135-104-190.us-east-2.compute.amazonaws.com "cd ~/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment1.log && ./Jenkins/app_start.sh > deployment2.log && ./Jenkins/env_setup.sh > deployment3.log"'
             }
