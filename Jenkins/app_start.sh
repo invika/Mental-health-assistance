@@ -1,11 +1,11 @@
 #!/bin/bash
-source /home/ubuntu/Mental-health-assistance/mental_health_care/bin/activate
+source mental_health_care/bin/activate
 python3.11 -m pip install channels
 
 export TF_ENABLE_ONEDNN_OPTS=0
 
 echo "Running the Migrations"
-python3.11 /home/ubuntu/Mental-health-assistance/manage.py migrate
+python3.11 manage.py migrate
 
 #!/bin/bash
 
@@ -22,4 +22,4 @@ fi
 
 #starting the server....
 echo "Running the application on 8000 port"
-python3.11 /home/ubuntu/Mental-health-assistance/manage.py runserver 0.0.0.0:8000 > /home/ubuntu/Mental-health-assistance/logs/server.log 2>&1
+python3.11 manage.py runserver 0.0.0.0:8000 > /var/lib/jenkins/workspace/Mental-Health-Assistance/logs/server.log 2>&1

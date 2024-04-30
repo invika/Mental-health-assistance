@@ -1,37 +1,65 @@
 pipeline{
     agent any
     stages {
-        stage('Dev - Deployment'){
+        // stage('Cleanup Workspace') {
+            // steps {
+                // cleanWs() // Cleanup workspace
+            // }
+        // }
+        stage('Setup the Application'){
             steps {
-                sh 'sudo su'
-                sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "rm -rf /home/ubuntu/Mental-health-assistance && git clone https://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@github.com/invika/Mental-health-assistance.git"'
-                sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "cd /home/ubuntu/Mental-health-assistance/ && sudo chmod -R 777 /home/ubuntu/Mental-health-assistance/Jenkins/ && /home/ubuntu/Mental-health-assistance/Jenkins/app_setup.sh > deployment1.log  && /home/ubuntu/Mental-health-assistance/Jenkins/env_setup.sh > deployment2.log && /home/ubuntu/Mental-health-assistance/Jenkins/app_start.sh > deployment3.log"'
+                sh '''
+                chmod +x ./Jenkins/app_setup.sh
+                ./Jenkins/app_setup.sh
+                '''
             }
+        }
+        stage('Setup Python Virtual ENV for dependencies'){
+            steps  {
+                sh '''
+                chmod +x ./Jenkins/env_setup.sh
+                ./Jenkins/env_setup.sh
+                '''}
             post {
                 always {
-                    input 'Deploy to Testing?' // Wait for user input to proceed to testing deployment
+                    input 'Deploy the Application on server?'
                 }
             }
+        }
+        stage('Start the Application'){
+            steps {
+                sh '''
+                sudo ufw enable
+                sudo ufw reload
+                sudo ufw status
+                ls
+                chmod +x ./Jenkins/app_start.sh
+                ./Jenkins/app_start.sh
+                '''
+            }
+        }
+        stage('Ping URL and Exit from Pipeline') {
+            steps {
+                script {
+                    def startTime = currentBuild.startTimeInMillis
+                    def endTime = startTime + (5 * 60 * 1000) // 5 minutes timeout
+                    def pingExitStatus = -1
 
-        }
-        stage('Test - Deployment'){
-            steps {
-                sh 'sudo su'
-                //sh 'scp -i "/var/lib/jenkins/workspace/Jenkin.pem" -o StrictHostKeyChecking=no -r ../Mental-health-assistance ubuntu@ec2-3-135-104-190.us-east-2.compute.amazonaws.com:~'
-                sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "rm -rf /home/ubuntu/Mental-health-assistance && git clone https://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@github.com/invika/Mental-health-assistance.git ~/"'
-                sh 'ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" ubuntu@ec2-3-135-104-190.us-east-2.compute.amazonaws.com "cd ~/Mental-health-assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment1.log && ./Jenkins/app_start.sh > deployment2.log && ./Jenkins/env_setup.sh > deployment3.log"'
-            }
-            post {
-                always {
-                    input 'Deploy to Production?' // Wait for user input to proceed to production deployment
+                    // Loop until ping is successful or timeout is reached
+                    while (System.currentTimeMillis() < endTime && pingExitStatus != 0) {
+                        pingExitStatus = sh(script: 'nc -zv 13.201.9.131 8000', returnStatus: true)
+                        if (pingExitStatus == 0) {
+                            echo 'Ping successful. Continuing with pipeline.'
+                            break
+                        }
+                        sleep 10 // Sleep for 10 seconds before trying again
+                    }
+
+                    // If ping was not successful within timeout period
+                    if (pingExitStatus != 0) {
+                        error 'Failed to ping URL within 5 minutes timeout.'
+                    }
                 }
-            }
-        }
-        stage('Prod - Deployment'){
-            steps {
-                sh 'sudo su'
-                sh 'scp -i "/var/lib/jenkins/workspace/Jenkin.pem" -o StrictHostKeyChecking=no -r Mental-health-assistance ubuntu@ec2-3-138-62-178.us-east-2.compute.amazonaws.com:~'
-                sh 'ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" ubuntu@ec2-3-138-62-178.us-east-2.compute.amazonaws.com "cd ~/Mental-health-assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment1.log && ./Jenkins/app_start.sh > deployment2.log && ./Jenkins/env_setup.sh > deployment3.log"'
             }
         }
     }
