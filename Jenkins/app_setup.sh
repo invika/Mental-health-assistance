@@ -1,6 +1,4 @@
 #!/bin/bash
-source /home/ubuntu/Mental-health-assistance/mental_health_care/bin/activate
-
 sudo apt update -y
 sudo apt upgrade -y
 
