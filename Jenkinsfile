@@ -20,8 +20,8 @@ pipeline{
                 sh '''
                 touch deployment.log
                 pwd
-                scp -i "/var/lib/jenkins/workspaceJenkin.pem" -r ./* ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com:~
-                ssh -i "/var/lib/jenkins/workspaceJenkin.pem" ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "cd ~/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment.log  && ./Jenkins/app_start.sh > deployment.log && ./Jenkins/env_setup.sh > deployment.log"
+                scp -i "/var/lib/jenkins/workspace/Jenkin.pem" -r ./* ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com:~
+                ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "cd ~/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment.log  && ./Jenkins/app_start.sh > deployment.log && ./Jenkins/env_setup.sh > deployment.log"
                 '''
             }
             post {
@@ -35,8 +35,8 @@ pipeline{
             steps {
                 sh '''
                 touch deployment.log
-                scp -i "/var/lib/jenkins/workspaceJenkin.pem" -r ./* ubuntu@ec2-3-135-104-190.us-east-2.compute.amazonaws.com:~
-                ssh -i "/var/lib/jenkins/workspaceJenkin.pem" ubuntu@ec2-3-135-104-190.us-east-2.compute.amazonaws.com "cd ~/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment.log && ./Jenkins/app_start.sh > deployment.log && ./Jenkins/env_setup.sh > deployment.log"
+                scp -i "/var/lib/jenkins/workspace/Jenkin.pem" -r ./* ubuntu@ec2-3-135-104-190.us-east-2.compute.amazonaws.com:~
+                ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" ubuntu@ec2-3-135-104-190.us-east-2.compute.amazonaws.com "cd ~/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment.log && ./Jenkins/app_start.sh > deployment.log && ./Jenkins/env_setup.sh > deployment.log"
                 '''
             }
             post {
@@ -49,8 +49,8 @@ pipeline{
             steps {
                 sh '''
                 touch deployment.log
-                scp -i "/var/lib/jenkins/workspaceJenkin.pem" -r ./* ubuntu@ec2-3-138-62-178.us-east-2.compute.amazonaws.com:~
-                ssh -i "/var/lib/jenkins/workspaceJenkin.pem" ubuntu@ec2-3-138-62-178.us-east-2.compute.amazonaws.com "cd ~/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment.log && ./Jenkins/app_start.sh > deployment.log && ./Jenkins/env_setup.sh > deployment.log"
+                scp -i "/var/lib/jenkins/workspace/Jenkin.pem" -r ./* ubuntu@ec2-3-138-62-178.us-east-2.compute.amazonaws.com:~
+                ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" ubuntu@ec2-3-138-62-178.us-east-2.compute.amazonaws.com "cd ~/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment.log && ./Jenkins/app_start.sh > deployment.log && ./Jenkins/env_setup.sh > deployment.log"
                 '''
             }
         }
