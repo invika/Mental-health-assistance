@@ -18,7 +18,9 @@ pipeline{
         stage('Dev - Deployment'){
             steps {
                 sh '''
-                ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" "cd /var/lib/jenkins/workspace/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh && ./Jenkins/app_start.sh && ./Jenkins/env_setup.sh"
+                touch deployment.log
+                scp -i "Jenkin.pem" -r ./* ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com:~
+                ssh -i "Jenkin.pem" ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "cd ~/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment.log  && ./Jenkins/app_start.sh > deployment.log && ./Jenkins/env_setup.sh > deployment.log"
                 '''
             }
             post {
@@ -31,7 +33,9 @@ pipeline{
         stage('Test - Deployment'){
             steps {
                 sh '''
-                ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" "cd /var/lib/jenkins/workspace/Mental-Health-Assistance/ && sudo chmod -R 777
+                touch deployment.log
+                scp -i "Jenkin.pem" -r ./* ubuntu@ec2-3-135-104-190.us-east-2.compute.amazonaws.com:~
+                ssh -i "Jenkin.pem" ubuntu@ec2-3-135-104-190.us-east-2.compute.amazonaws.com "cd ~/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment.log && ./Jenkins/app_start.sh > deployment.log && ./Jenkins/env_setup.sh > deployment.log"
                 '''
             }
             post {
@@ -43,32 +47,10 @@ pipeline{
         stage('Prod - Deployment'){
             steps {
                 sh '''
-                ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" "cd /var/lib/jenkins/workspace/Mental-Health-Assistance/ && sudo chmod -R 777
+                touch deployment.log
+                scp -i "Jenkin.pem" -r ./* ubuntu@ec2-3-138-62-178.us-east-2.compute.amazonaws.com:~
+                ssh -i "Jenkin.pem" ubuntu@ec2-3-138-62-178.us-east-2.compute.amazonaws.com "cd ~/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment.log && ./Jenkins/app_start.sh > deployment.log && ./Jenkins/env_setup.sh > deployment.log"
                 '''
-        }
-    }
-        stage('Ping URL and Exit from Pipeline') {
-            steps {
-                script {
-                    def startTime = currentBuild.startTimeInMillis
-                    def endTime = startTime + (5 * 60 * 1000) // 5 minutes timeout
-                    def pingExitStatus = -1
-
-                    // Loop until ping is successful or timeout is reached
-                    while (System.currentTimeMillis() < endTime && pingExitStatus != 0) {
-                        pingExitStatus = sh(script: 'nc -zv 13.201.9.131 8000', returnStatus: true)
-                        if (pingExitStatus == 0) {
-                            echo 'Ping successful. Continuing with pipeline.'
-                            break
-                        }
-                        sleep 10 // Sleep for 10 seconds before trying again
-                    }
-
-                    // If ping was not successful within timeout period
-                    if (pingExitStatus != 0) {
-                        error 'Failed to ping URL within 5 minutes timeout.'
-                    }
-                }
             }
         }
     }
