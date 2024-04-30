@@ -6,15 +6,15 @@ pipeline{
                 cleanWs() //Cleanup workspace
             }
         }
-        stage('Checkout from Git') {
-            steps {
-                script {
-                    withCredentials([string(credentialsId: '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', variable: 'PAT')]) {
-                        git branch: 'main', credentialsId: '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', url: 'https://github.com/invika/Mental-health-assistance.git'
-                    }
-                }
-            }
-        }
+        // stage('Checkout from Git') {
+            // steps {
+                // script {
+                    // withCredentials([string(credentialsId: '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', variable: 'PAT')]) {
+                        // git branch: 'main', credentialsId: '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', url: 'https://github.com/invika/Mental-health-assistance.git'
+                    // }
+                // }
+            // }
+        // }
         stage('Dev - Deployment'){
             steps {
                 sh '''
