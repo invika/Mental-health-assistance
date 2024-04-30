@@ -1,5 +1,5 @@
 #!/bin/bash
-source mental_health_care/bin/activate
+source /home/ubuntu/Mental-health-assistance/mental_health_care/bin/activate
 
 sudo apt update -y
 sudo apt upgrade -y
