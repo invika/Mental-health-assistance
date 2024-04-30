@@ -3,7 +3,6 @@
 #sudo apt install python3-full -S
 #sudo apt install -y python3.11-venv -S
 
-
 #python3.11 -m ensurepip --upgrade
 #python3.11 -m pip install --upgrade pip
 #sudo apt install python3-virtualenv -S
