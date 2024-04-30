@@ -1,7 +1,7 @@
 #!/bin/bash
 source /home/ubuntu/Mental-health-assistance/mental_health_care/bin/activate
 python3.11 -m pip install channels
-sudo apt install libgl1-mesa-glx
+sudo apt install mesa-utils
 
 export TF_ENABLE_ONEDNN_OPTS=0
 
