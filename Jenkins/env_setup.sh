@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #Creating virtual environment
-python3.11 -m venv mental_health_care
+python3.11 -m venv /home/ubuntu/Mental-health-assistance/mental_health_care
 
 #Running python virtual environment
-source mental_health_care/bin/activate
+source /home/ubuntu/Mental-health-assistance/mental_health_care/bin/activate
 
 
 python3.11 -m pip install --upgrade pip
