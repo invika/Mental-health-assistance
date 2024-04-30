@@ -1,11 +1,11 @@
 pipeline{
     agent any
     stages {
-        // stage('Cleanup Workspace') {
-            // steps {
-                // cleanWs() // Cleanup workspace
-            // }
-        // }
+        stage('Cleanup Workspace') {
+            steps {
+                cleanWs() // Cleanup workspace
+            }
+        }
         stage('Setup the Application'){
             steps {
                 sh '''
