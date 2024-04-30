@@ -5,33 +5,10 @@ pipeline{
             steps {
                 sh 'sudo su'
                 sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "rm -rf /home/ubuntu/Mental-health-assistance && git clone https://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@github.com/invika/Mental-health-assistance.git"'
-                sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "cd /home/ubuntu/Mental-health-assistance/ && sudo chmod -R 777 /home/ubuntu/Mental-health-assistance/Jenkins/ && /home/ubuntu/Mental-health-assistance/Jenkins/app_setup.sh > deployment1.log  && /home/ubuntu/Mental-health-assistance/Jenkins/env_setup.sh > deployment2.log && /home/ubuntu/Mental-health-assistance/Jenkins/app_start.sh > deployment3.log"'
-            }
-            post {
-                always {
-                    input 'Deploy to Testing?' // Wait for user input to proceed to testing deployment
-                }
-            }
-
-        }
-        stage('Test - Deployment'){
-            steps {
-                sh 'sudo su'
-                //sh 'scp -i "/var/lib/jenkins/workspace/Jenkin.pem" -o StrictHostKeyChecking=no -r ../Mental-health-assistance ubuntu@ec2-3-135-104-190.us-east-2.compute.amazonaws.com:~'
-                sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "rm -rf /home/ubuntu/Mental-health-assistance && git clone https://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@github.com/invika/Mental-health-assistance.git ~/"'
-                sh 'ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" ubuntu@ec2-3-135-104-190.us-east-2.compute.amazonaws.com "cd ~/Mental-health-assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment1.log && ./Jenkins/app_start.sh > deployment2.log && ./Jenkins/env_setup.sh > deployment3.log"'
-            }
-            post {
-                always {
-                    input 'Deploy to Production?' // Wait for user input to proceed to production deployment
-                }
-            }
-        }
-        stage('Prod - Deployment'){
-            steps {
-                sh 'sudo su'
-                sh 'scp -i "/var/lib/jenkins/workspace/Jenkin.pem" -o StrictHostKeyChecking=no -r Mental-health-assistance ubuntu@ec2-3-138-62-178.us-east-2.compute.amazonaws.com:~'
-                sh 'ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" ubuntu@ec2-3-138-62-178.us-east-2.compute.amazonaws.com "cd ~/Mental-health-assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh > deployment1.log && ./Jenkins/app_start.sh > deployment2.log && ./Jenkins/env_setup.sh > deployment3.log"'
+                sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "cd /home/ubuntu/Mental-health-assistance/ && sudo chmod -R 777 /home/ubuntu/Mental-health-assistance/Jenkins/"'
+                sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "/home/ubuntu/Mental-health-assistance/Jenkins/app_setup.sh > app_setup.log"'
+                sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "/home/ubuntu/Mental-health-assistance/Jenkins/env_setup.sh > env_setup.log"'
+                sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "/home/ubuntu/Mental-health-assistance/Jenkins/app_start.sh > app_start.log"'
             }
         }
     }
