@@ -6,38 +6,47 @@ pipeline{
                 cleanWs() // Cleanup workspace
             }
         }
-        stage('Setup the Application'){
+         stage('Checkout from Git') {
             steps {
-                sh '''
-                chmod +x ./Jenkins/app_setup.sh
-                ./Jenkins/app_setup.sh
-                '''
-            }
-        }
-        stage('Setup Python Virtual ENV for dependencies'){
-            steps  {
-                sh '''
-                chmod +x ./Jenkins/env_setup.sh
-                ./Jenkins/env_setup.sh
-                '''}
-            post {
-                always {
-                    input 'Deploy the Application on server?'
+              script {
+                    withCredentials([string(credentialsId: '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', variable: 'PAT')]) {
+                        git branch: 'main', credentialsId: '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', url: 'https://github.com/invika/Mental-health-assistance.git'
+                    }
                 }
             }
         }
-        stage('Start the Application'){
+        stage('Dev - Deployment'){
             steps {
                 sh '''
-                sudo ufw enable
-                sudo ufw reload
-                sudo ufw status
-                ls
-                chmod +x ./Jenkins/app_start.sh
-                ./Jenkins/app_start.sh
+                ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" "cd /var/lib/jenkins/workspace/Mental-Health-Assistance/ && sudo chmod -R 777 ./Jenkins/ && ./Jenkins/app_setup.sh && ./Jenkins/app_start.sh && ./Jenkins/env_setup.sh"
                 '''
             }
+            post {
+                always {
+                    input 'Deploy to Testing?' // Wait for user input to proceed to testing deployment
+                }
+            }
+
         }
+        stage('Test - Deployment'){
+            steps {
+                sh '''
+                ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" "cd /var/lib/jenkins/workspace/Mental-Health-Assistance/ && sudo chmod -R 777
+                '''
+            }
+            post {
+                always {
+                    input 'Deploy to Production?' // Wait for user input to proceed to production deployment
+                }
+            }
+        }
+        stage('Prod - Deployment'){
+            steps {
+                sh '''
+                ssh -i "/var/lib/jenkins/workspace/Jenkin.pem" "cd /var/lib/jenkins/workspace/Mental-Health-Assistance/ && sudo chmod -R 777
+                '''
+        }
+    }
         stage('Ping URL and Exit from Pipeline') {
             steps {
                 script {
