@@ -14,7 +14,7 @@ python3.11 -m pip install --upgrade setuptools
 echo `pwd`
 echo "$USER"
 echo `python3.11 --version`
-python3.11 -m pip install -r /var/lib/jenkins/workspace/Mental-Health-Assistance/Jenkins/requirements.txt
+python3.11 -m pip install -r /var/lib/jenkins/workspace/Mental-health-Assistance/Jenkins/requirements.txt
 sudo apt-get install python3-dev default-libmysqlclient-dev build-essential pkg-config
 python3.11 -m pip install mysqlclient
 python3.11 -m pip install channels

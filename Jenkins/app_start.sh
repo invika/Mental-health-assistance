@@ -22,4 +22,4 @@ fi
 
 #starting the server....
 echo "Running the application on 8000 port"
-python3.11 manage.py runserver 0.0.0.0:8000 > /var/lib/jenkins/workspace/Mental-Health-Assistance/logs/server.log 2>&1
+python3.11 manage.py runserver 0.0.0.0:8000 > /var/lib/jenkins/workspace/Mental-health-Assistance/logs/server.log 2>&1
