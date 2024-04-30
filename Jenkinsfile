@@ -4,7 +4,7 @@ pipeline{
         stage('Dev - Deployment'){
             steps {
                 sh 'sudo su'
-                sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "git clone https://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@github.com/invika/Mental-health-assistance.git"'
+                sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "git clone --force https://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@github.com/invika/Mental-health-assistance.git"'
                 sh 'ssh -i /var/lib/jenkins/workspace/Jenkin.pem ubuntu@ec2-3-144-180-19.us-east-2.compute.amazonaws.com "cd /home/ubuntu/Mental-Health-Assistance/ && sudo chmod -R 777 /home/ubuntu/Mental-Health-Assistance/Jenkins/ && /home/ubuntu/Mental-Health-Assistance/Jenkins/app_setup.sh > deployment1.log  && /home/ubuntu/Mental-Health-Assistance/Jenkins/env_setup.sh > deployment2.log && /home/ubuntu/Mental-Health-Assistance/Jenkins/app_start.sh > deployment3.log"'
             }
             post {
