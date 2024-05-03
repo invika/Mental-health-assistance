@@ -15,7 +15,7 @@ pipeline{
                 }
                  // Terminate the Jenkins job
                 currentBuild.result = 'SUCCESS'
-                error('Django server started successfully. Terminating Jenkins job.')
+                error('Django server started successfully. Terminating Jenkins job')
                 }
             }
         }
