@@ -23,7 +23,7 @@ fi
 
 #starting the server....
 echo "Running the application on 8000 port"
-nohup python3 /home/ubuntu/Mental-health-assistance/manage.py runserver 0.0.0.0:8000 & > /home/ubuntu/Mental-health-assistance/logs/server.log 2>&1
+nohup python3 /home/ubuntu/Mental-health-assistance/manage.py runserver 0.0.0.0:8000 &
 
 # Check if port 5500 is open
 if lsof -Pi :5500 -sTCP:LISTEN -t >/dev/null; then

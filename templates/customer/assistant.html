@@ -119,8 +119,6 @@
     </div>
     
     <script>
-        require('dotenv').config()
-        const ipAddress = process.env.IP_ADDRESS;
         document.addEventListener("DOMContentLoaded", function() {
             // Get references to start and stop buttons
             const startButton = document.getElementById("start_button");
@@ -129,7 +127,7 @@
             // Add event listeners to start and stop buttons
             startButton.addEventListener("click", function() {
                 // Set the source of the video feed to start streaming
-                window.location="http://${ipAddress}:5500/3-emotioncam.html"
+                window.location="http://18.216.205.169:5500/3-emotioncam.html"
                 //document.getElementById("video_feed").src = "{% url 'video_feed' %}";
                 // Fetch maxEmotion from local storage
                 
