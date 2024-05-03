@@ -100,7 +100,7 @@ DATABASES = {
         'NAME': 'mental_health_assistance',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': '3.136.240.186',
+        'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"',
