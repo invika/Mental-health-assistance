@@ -17,8 +17,6 @@
     </div>
     <h1 id="status">Loading...</h1>
     <script>
-    require('dotenv').config()
-    const ipAddress = process.env.IP_ADDRESS;
     function setText(text) {
         document.getElementById("status").innerText = text;
     }
@@ -84,7 +82,7 @@
                 var formData = new FormData();
                 formData.append('maxEmotion', maxEmotion);
                 // Send data to Django application
-                fetch('http://${ipAddress}:8000/receive-data/', {
+                fetch('http://18.216.205.169:8000/receive-data/', {
                         method: 'POST',
                         body: formData,
                         mode: 'cors', // Ensure CORS is enabled
@@ -109,7 +107,7 @@
                     });
     
                 sessionStorage.setItem('maxEmotion', maxEmotion);
-                window.location.href = "http://${ipAddress}:8000/assistant";
+                window.location.href = "http://18.216.205.169:8000/assistant";
                 setTimeout(() => {
                     setText(`Most Detected Emotion: ${maxEmotion}`);
                     // Redirect to the assistant after waiting for 2 seconds
