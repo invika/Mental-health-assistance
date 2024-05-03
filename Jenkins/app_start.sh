@@ -1,12 +1,27 @@
 #!/bin/bash
 source /home/ubuntu/Mental-health-assistance/mental_health_care/bin/activate
-python3.11 -m pip install channels
+python3 -m pip install channels
 sudo apt install mesa-utils
 
 export TF_ENABLE_ONEDNN_OPTS=0
 
+# Check if port 5500 is open
+if lsof -Pi :5500 -sTCP:LISTEN -t >/dev/null; then
+    # Port is open, find and kill the process
+    PID=$(lsof -ti :5500)
+    echo "Port 5500 is open, killing process $PID"
+    kill $PID
+else
+    # Port is not open
+    echo "Port 5500 is not open"
+fi
+
+cd /home/ubuntu/Mental-health-assistance/facefilters
+npm install
+nodejs index.js
+
 echo "Running the Migrations"
-python3.11 /home/ubuntu/Mental-health-assistance/manage.py migrate
+python3 /home/ubuntu/Mental-health-assistance/manage.py migrate
 
 #!/bin/bash
 
@@ -23,4 +38,4 @@ fi
 
 #starting the server....
 echo "Running the application on 8000 port"
-python3.11 /home/ubuntu/Mental-health-assistance/manage.py runserver 0.0.0.0:8000 > /home/ubuntu/Mental-health-assistance/logs/server.log 2>&1
+nohup python3 /home/ubuntu/Mental-health-assistance/manage.py runserver 0.0.0.0:8000 & > /home/ubuntu/Mental-health-assistance/logs/server.log 2>&1
