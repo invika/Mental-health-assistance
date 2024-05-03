@@ -19,6 +19,7 @@ fi
 cd /home/ubuntu/Mental-health-assistance/facefilters
 npm install
 nodejs index.js
+cd -
 
 echo "Running the Migrations"
 python3 /home/ubuntu/Mental-health-assistance/manage.py migrate
