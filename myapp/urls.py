@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, login, validate_login, register, edituser, updateuser, assistant, video_feed, healthreference, nearbydoctors, index, history,get_session_data, showAsstiant
+from .views import home, login, validate_login, register, edituser, updateuser, assistant, video_feed, healthreference, nearbydoctors, index, history,get_session_data, showAsstiant,receive_data
 from  django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -18,5 +18,6 @@ urlpatterns = [
     path('nearbydoctors/', nearbydoctors, name='nearbydoctors'),
     path('history/', history, name='history'),
     path('showAsstiant/<str:emotion_detected>/', showAsstiant, name='showAsstiant'),
-    path('get_session_data/', get_session_data, name='get_session_data')
+    path('get_session_data/', get_session_data, name='get_session_data'),
+    path('receive-data/', receive_data, name='receive_data')
 ]

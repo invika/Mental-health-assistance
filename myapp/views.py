@@ -20,6 +20,22 @@ import numpy as np
 from datetime import datetime
 from django.http import StreamingHttpResponse
 from django.views.decorators import gzip
+from django.views.decorators.csrf import csrf_exempt
+from django.core.cache import cache
+import pytz
+
+
+@csrf_exempt  # This decorator allows the view to accept POST requests without CSRF token
+def receive_data(request):
+
+    if request.method == 'POST':
+        # Retrieve data from POST request
+        emotion_detected = request.POST.get('maxEmotion')
+        cache.set('emotion',emotion_detected)
+        return JsonResponse({'message': 'Data received successfully'})
+    
+        # return JsonResponse({'emotion_detected': "angry" })
+
 
 def index(request):
     return render(request, "home/index.html", {})
@@ -47,7 +63,13 @@ def validate_login(request):
         request.session['username'] = customuser.email
         request.session['goal'] = customuser.goal
         print("email host",settings.EMAIL_HOST_USER)
-        today = datetime.now().date()
+        texas_timezone = pytz.timezone('America/Chicago')
+
+        # Get the current time in Texas timezone
+        current_time_texas = datetime.now(texas_timezone)
+
+        # Extract the date from the current time in Texas timezone
+        today = current_time_texas.date()
         if today.day <= 5:
             if request.session['username']:
                 history = Emotions.objects.filter(username=request.session['username'])
@@ -131,7 +153,7 @@ def register(request):
 
         authenticated_user = authenticate(request, username=username, password=password)
         auth_login(request, authenticated_user)  
-        return redirect("home")
+        return redirect("login")
     
     return render(request, "home/register.html", {})
 
@@ -279,13 +301,24 @@ def video_feed(request):
         return StreamingHttpResponse(generate(request), content_type='multipart/x-mixed-replace; boundary=frame')
 
 def get_session_data(request):
-    emotionName = get_last_emotion_for_username(request.session['username'])
+    most_occurred=cache.get('emotion')
+    if(most_occurred and most_occurred!="No Face"):
+        print(most_occurred)
+        emotion = Emotions.objects.create(
+                username=request.session['username'],
+                emotionname=most_occurred
+            )
+        emotion.save()
+        emotionName = get_last_emotion_for_username(request.session['username'])
+    else:
+        emotionName='Not Detected'
+        return JsonResponse({'emotion_detected': emotionName})
     if emotionName:
         return JsonResponse({'emotion_detected': emotionName})
         # return JsonResponse({'emotion_detected': "angry" })
-
     else:
-        return JsonResponse({'error': 'Not Detected'})
+        emotionName='Not Detected'
+        return JsonResponse({'emotion_detected': emotionName})
 
 def get_last_emotion_for_username(username):
     try:
@@ -298,6 +331,8 @@ def get_last_emotion_for_username(username):
 def showAsstiant(request,emotion_detected):
     customuser = CustomUser.objects.get(email=request.session.get("username")) 
     filtered_movies = []
+    if emotion_detected=='Not Detected':
+        return render(request, "customer/assistant.html", {'happy': customuser.intrests,'emotion_detected':emotion_detected})
     if emotion_detected == 'sad':
         if customuser.horror:
             filtered_movies += Movies.objects.filter(movieType="Horror")
@@ -312,9 +347,9 @@ def showAsstiant(request,emotion_detected):
         if customuser.romance:
             filtered_movies += Movies.objects.filter(movieType="Romance")
         return render(request, "customer/assistant.html", {'movies': filtered_movies,'emotion_detected':emotion_detected})
-    if emotion_detected == 'neutral':
+    if emotion_detected == 'neutral' or emotion_detected == 'disgust':
         return render(request, "customer/assistant.html", {'intrests': customuser.intrests,'emotion_detected':emotion_detected})
-    if emotion_detected == 'happy':
+    if emotion_detected == 'happy' or emotion_detected == 'fear' or emotion_detected == 'surprise':
         return render(request, "customer/assistant.html", {'happy': customuser.intrests,'emotion_detected':emotion_detected})
     if emotion_detected == 'angry':
         return render(request, "customer/assistant.html", {'angry': customuser.favourite_sports_and_places,'emotion_detected':emotion_detected})

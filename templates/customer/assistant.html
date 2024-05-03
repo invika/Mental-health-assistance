@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-6">
                         <!-- Start and stop buttons -->
-                        <button id="start_button" class="btn btn-primary btn-block">Start</button>
+                        <button id="start_button" class="btn btn-primary btn-block" >Start</button>
                         <button id="stop_button" class="btn btn-danger btn-block">Show Emotion</button>
                     </div>
                     <div class="col-6">
@@ -64,6 +64,16 @@
             </div>
             {% endif %}
 
+            {% if emotion_detected == 'disgust' %}
+            <div class="col-12 mt-5" id="interests_section" >
+                <div class="container">
+                    <h1>Here are your Intrests, Please follow your Intrests</h1>
+                    <br>
+                    <h1>{{intrests}}</h1>
+                </div>
+            </div>
+            {% endif %}
+
             {% if emotion_detected == 'angry' %}
             <div class="col-12 mt-5" id="angry_section" >
                 <div class="container">
@@ -81,24 +91,61 @@
                 </div>
             </div>
             {% endif %}
+            {% if emotion_detected == 'Not Detected' %}
+            <div class="col-12 mt-5" id="happy_section" >
+                <div class="container">
+                    <h1 style="color: red;">U didn't record the video please press start and start recording....</h1>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if emotion_detected == 'fear' %}
+            <div class="col-12 mt-5" id="happy_section" >
+                <div class="container">
+                    <h1 style="color: green;">Calm down for your emotional well being</h1>
+                </div>
+            </div>
+            {% endif %}
+            {% if emotion_detected == 'surprise' %}
+            <div class="col-12 mt-5" id="happy_section" >
+                <div class="container">
+                    <h1 style="color: green;">You look amazed!.Please continue the happiness to improve Mental Health</h1>
+                </div>
+            </div>
+            {% endif %}
+            
+            
         </div>
     </div>
     
     <script>
+        require('dotenv').config()
+        const ipAddress = process.env.IP_ADDRESS;
         document.addEventListener("DOMContentLoaded", function() {
             // Get references to start and stop buttons
             const startButton = document.getElementById("start_button");
             const stopButton = document.getElementById("stop_button");
-    
+            
             // Add event listeners to start and stop buttons
             startButton.addEventListener("click", function() {
                 // Set the source of the video feed to start streaming
-                document.getElementById("video_feed").src = "{% url 'video_feed' %}";
+                window.location="http://${ipAddress}:5500/3-emotioncam.html"
+                //document.getElementById("video_feed").src = "{% url 'video_feed' %}";
+                // Fetch maxEmotion from local storage
+                
+                // // Clear maxEmotion from local storage
+                // localStorage.removeItem('maxEmotion');
+                // // Clear all items from local storage
+                // localStorage.clear();
+
+
             });
     
             stopButton.addEventListener("click", function() {
+                
     // Set the source of the video feed to stop streaming
     document.getElementById("video_feed").src = "";
+    // window.location='/receive-data/';
     
     // Fetch session data
     fetch('/get_session_data/')

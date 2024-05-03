@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-^j0kuaqsfs4eof0j0*0oanbu%r-$^bs4q@6!v9e(q=nfej1i3x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'myapp',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,6 +54,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mental_health_assistance.urls'
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
@@ -67,6 +70,15 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://3.136.240.186:8000",
+    "http://3.136.240.186:5500",
+    "http://18.118.98.229:8000",
+    "http://18.118.98.229:5500",
+    "http://18.216.205.169:8000",
+    "http://18.216.205.169:5500"
 ]
 
 WSGI_APPLICATION = 'mental_health_assistance.wsgi.application'
@@ -88,7 +100,7 @@ DATABASES = {
         'NAME': 'mental_health_assistance',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': 'localhost',
+        'HOST': '3.136.240.186',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"',
@@ -121,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Chicago'
 
 USE_I18N = True
 
