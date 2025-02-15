@@ -1,4 +1,4 @@
-Django==5.0.4 
+Django==4.2.3
 keras 
 opencv-python 
 tensorflow 
