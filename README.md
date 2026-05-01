@@ -1,20 +1,48 @@
-TITLE: Mental Health Assistance
+# Mental Health Assistance Platform
 
-Description: 
-This project aims to develop a comprehensive mental health management platform empowered by artificial intelligence. For individuals can track their mood over time, receive 
-personalized recommendations, access resources, and connect with Doctors easily. Key features include mood tracking through video recording, receiving monthly reminders and support via Gmail, personalized doctor recommendations, and access to nearby specialists based on location. This AI-powered assistant provides tailored support, offers educational resources on various mental health topics, and enables users to set and track goals for their mental well-being. Through these features, the platform aims to empower users to manage their mental health effectively, improve self-awareness, and stay motivated on their journey towards better mental well-being.
+AI-powered mental health support platform designed to help users monitor emotional well-being, receive personalized recommendations, and connect with mental health professionals.
 
+## Features
 
-Development platform: Visual studio
+- Mood tracking using video input
+- Personalized doctor recommendations
+- Email reminder system
+- Location-based specialist discovery
+- Educational mental health resources
+- Goal tracking and wellness support
+- AI/NLP-based emotional analysis
 
-Software Environment: 
+## Tech Stack
 
-Front End: HTML, CSS, JavaScript
+### Frontend
+- HTML
+- CSS
+- JavaScript
+- Bootstrap
 
-Framework: Bootstrap 
+### Backend
+- Python
+- Django
 
-Backend Development: Python, Django Tools 
+### AI / ML
+- TensorFlow
+- PyTorch
+- scikit-learn
 
-NLP and Machine Learning 
+### DevOps / CI-CD
+- Jenkins
 
-Framework: TensorFlow, PyTorch, scikit-learn.
+## My Contributions
+
+- CI/CD pipeline improvements using Jenkins
+- Backend feature enhancements
+- Webcam integration support
+- Deployment workflow updates
+- Requirements and dependency management
+
+## Future Improvements
+
+- Containerization using Docker
+- Kubernetes deployment
+- Cloud-native hosting
+- Monitoring and logging integration
